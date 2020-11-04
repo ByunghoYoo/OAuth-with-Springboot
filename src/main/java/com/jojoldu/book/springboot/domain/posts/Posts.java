@@ -42,4 +42,8 @@ public class Posts {
     // 빌더 패턴을 쓰는 이유는 생성자에 두개의 매개변수 타입이 같을 경우 값이 서로 바꿔서 들어가도
     // 코드를 실행하기 전까진 문제를 찾을 수 없음. 하지만 빌더를 사용하면 어느 필드에 어떤 값을 채워야할지 정확히 인지할 수 있음
 
+    public void update(String title, String content) {
+        this.title = title;
+        this.content = content;
+    }
 }
