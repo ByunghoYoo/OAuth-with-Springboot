@@ -1,5 +1,6 @@
 package com.jojoldu.book.springboot.domain.posts;
 
+import com.jojoldu.book.springboot.domain.BaseTimeEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,7 +13,7 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor  // 기본 생성자 자동 추가, public Posts() {} 와 같은 효과
 @Entity
-public class Posts {
+public class Posts extends BaseTimeEntity {
 
     @Id // 해당 테이블의 PK 필드
     // PK 의 생성 규칙, GenerationType.IDENTITY 옵션을 추가해야만 auto_increment 가 됨 (오라클 Sequence 같은 느낌?)
@@ -33,14 +34,14 @@ public class Posts {
 
     // 해당 클래스의 빌더 패턴 클래스를 생성
     // 생성자 상단에 선언 시 생성자에 포함된 필드만 빌더에 포함
+    // 빌더 패턴을 쓰는 이유는 생성자에 두개의 매개변수 타입이 같을 경우 값이 서로 바꿔서 들어가도
+    // 코드를 실행하기 전까진 문제를 찾을 수 없음. 하지만 빌더를 사용하면 어느 필드에 어떤 값을 채워야할지 정확히 인지할 수 있음
     @Builder
     public Posts(String title, String content, String author) {
         this.title = title;
         this.content = content;
         this.author = author;
     }
-    // 빌더 패턴을 쓰는 이유는 생성자에 두개의 매개변수 타입이 같을 경우 값이 서로 바꿔서 들어가도
-    // 코드를 실행하기 전까진 문제를 찾을 수 없음. 하지만 빌더를 사용하면 어느 필드에 어떤 값을 채워야할지 정확히 인지할 수 있음
 
     public void update(String title, String content) {
         this.title = title;

@@ -15,6 +15,7 @@ import javax.transaction.Transactional;
 public class PostsService {
     private final PostsRepository postsRepository;
 
+    // 선언적 트랜잭션
     @Transactional
     public Long save(PostsSaveRequestDto requestDto) {
         return postsRepository.save(requestDto.toEntity()).getId();
