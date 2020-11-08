@@ -14,6 +14,9 @@ import java.time.LocalDateTime;
 
 // @MappedSuperclass : JPA Entity 클래스들이 BaseTimeEntity 을 상속할 경우 필드들도 칼럼으로 인식하도록 함
 // @EntityListeners(AuditingEntityListener.class) : BaseTimeEntity 클래스에 Auditing 기능을 포함시킴
+// JPA Auditing : 생성일, 수정일과 같은 시간에 대해서 자동으로 값을 넣어주는 기능
+// 도메인을 영속성 컨텍스트에 저장하거나 조회를 수행한 후에 update 를 하는 경우 매번 시간 데이터를 입력하여 주어야 하는데,
+// audit 을 이용하면 자동으로 시간을 매핑하여 데이터베이스의 테이블에 넣어주게 됨
 @Getter
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)

@@ -50,12 +50,20 @@ public class PostsService {
     // readOnly = true : 트랜잭션 범위는 유지하되, 조회 기능만 남겨두어 조회 속도가 개선 됨
     // 등록, 삭제, 수정 기능이 전혀 없는 서비스 메소드에서만 사용하는 것을 추천
     // postsRepository 결과로 넘어온 Posts 의 Stream 을 map 을 통해 PostsListResponseDto 변환 -> List 로 반환하는 메소드
+    // Stream : 람다를 활용할 수 있는 기술 중 하나.
+    // 자바 8 이전에는 배열 또는 컬렉션 인스턴스를 다루는 방법은 for 또는 foreach 문을 돌면서 하나씩 꺼내서 다루는 방법
+    // 스트림은 '데이터의 흐름'. 배열 또는 컬렉션 인스턴스에 함수 여러 개를 조합해서 원하는 결과를 필터링하고 가공된 결과를 얻음
+    // 또한 람다를 이용해서 코드의 양을 줄이고 간결하게 표현이 가능. 즉 배열과 컬렉션을 함수형으로 처리할 수 있음.
+    // 또 하나의 장점은 병렬 처리가 가능함 (https://futurecreator.github.io/2018/08/26/java-8-streams/)
     @Transactional(readOnly = true)
     public List<PostsListResponseDto> findAllDesc() {
         return postsRepository.findAllDesc().stream()
                 .map(PostsListResponseDto::new)
                 .collect(Collectors.toList());
         // .map(PostsListResponseDto::new) = .map(posts -> new PostsListResponseDto(posts))
+        // .map(람다식) : 요소들을 특정조건에 해당하는 값으로 변환
+        // ex) list.stream().map(s -> s.toUpperCase()); : 리스트의 요소들을 대문자로 변경
+        // .collect(Collectors.toList()) : 스트림에서 작업한 결과를 담은 리스트로 반환
     }
 
     @Transactional
