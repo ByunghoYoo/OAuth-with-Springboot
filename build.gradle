@@ -38,4 +38,12 @@ dependencies {
     // 소셜 로그인 등 클라이언트 입장에서 소셜 기능 구현 시 필요한 의존성
     // spring-security-oauth2-client 와 spring-security-oauth2-jose 를 기본적으로 관리
     compile('org.springframework.boot:spring-boot-starter-oauth2-client')
+
+    // 애플리케이션을 재실행하면 로그인이 풀리는데, 이는 세션이 내장 톰캣의 메모리에 저장되기 때문
+    // 내장 톰캣처럼 애플리케이션 실행 시 실행되는 구조에선 항상 초기화가 됨. 즉 배포할 때마다 톰캣이 재시작 됨
+    // 또한 2대 이상의 서버에서 서비스화하고 있다면 톰캣마다 세션 동기화 설정을 해야하는데 보통 현업에서 3가지 중 한가지를 선택함
+    // 1. 톰캣 세션 사용, 2. MySQL 같은 데이터베이스를 세션 저장소로 사용, 3. Redis, Memcached 와 같은 메모리 DB 를 세션 저장소로 사용
+    // 데이터베이스를 세션 저장소로 사용하는 방식 진행
+    compile('org.springframework.session:spring-session-jdbc')
+
 }
