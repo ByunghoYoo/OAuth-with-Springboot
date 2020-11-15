@@ -1,9 +1,13 @@
 package com.jojoldu.book.springboot.web;
 
+import com.jojoldu.book.springboot.config.auth.SecurityConfig;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.FilterType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -19,7 +23,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 // 선언할 경우 @Controller, @ControllerAdvice 등을 사용할 수 있음
 // 단, @Service, @Component, @Repository 등은 사용할 수 없음
 // 여기선 컨트롤러만 사용하기 때문에 선언
-@WebMvcTest(controllers = HelloController.class)
+// * 전체 테스트 오류건!
+// @WebMvcTest 는 CustomOAuth2UserService(@Service) 를 스캔하지 않음
+// SecurityConfig 는 읽었지만, SecurityConfig 를 생성하기 위해 필요한 CustomOAuth2UserService 는 읽을 수 가 없어 에러 발생
+// 따라서 excludeFilters 를 통해 스캔대상에서 SecurityConfig 제거
+@WebMvcTest(controllers = HelloController.class,
+            excludeFilters = {
+            @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = SecurityConfig.class)
+            })
 public class HelloControllerTest {
 
     // 스프링이 관리하는 빈(Bean)을 주입 받음 (Spring framework 랑 동일한 듯)
@@ -30,6 +41,7 @@ public class HelloControllerTest {
     // 스프링 MVC 테스트의 시작점
     // 이 클래스를 통해 HTTP GET, POST 등에 대한 API 테스트를 할 수 있음
 
+    @WithMockUser(roles="USER")
     @Test
     public void hello가_리턴된다() throws Exception {
         String hello = "hello";
@@ -49,6 +61,7 @@ public class HelloControllerTest {
         // Controller 에서 "hello" 를 리턴하기 때문에 이 값이 맞는지 검증
     }
 
+    @WithMockUser(roles="USER")
     @Test
     public void helloDto가_리턴된다() throws Exception {
         String name = "hello";
