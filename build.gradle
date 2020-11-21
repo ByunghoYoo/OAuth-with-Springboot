@@ -48,5 +48,8 @@ dependencies {
 
     // 스프링 시큐리티를 위한 여러 도구를 지원
     testCompile("org.springframework.security:spring-security-test")
+    
+    // MariaDB 드라이버
+    compile("org.mariadb.jdbc:mariadb-java-client")
 
 }
