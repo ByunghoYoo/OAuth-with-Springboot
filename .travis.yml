@@ -1,0 +1,30 @@
+# CI & CD
+# CI : Continuous Integration(지속적 통합) - 코드 버전 관리를 하는 VCS 시스템에 PUSH 가 자동으로 되면
+#       자동으로 테스트와 빌드가 수행되어 안정적인 배포 파일을 만드는 과정
+# CD : Continuous Deployment(지속적인 배포) - 빌드 결과를 자동으로 운영 서버에 무중단 배포까지 진행되는 과정
+language: java
+jdk:
+  - openjdk8
+
+braches:
+  only:
+    - master
+
+# Travis CI 서버의 Home
+cache:
+  directories:
+    - '$HOME/.m2/repository'
+    - '$HOME/.gradle'
+
+script: "./gradlew clean build"
+
+# CI 실행 완료 시 메일로 알람
+notifications:
+  email:
+    recipients:
+      - yoobyunghogu@naver.com
+
+# branches : Travis CI 를 어느 브랜치가 푸쉬될 때 수행할지 지정, 현재 옵션은 오직 master 브랜치에서 push 될 때만 수행
+# cache : 그레이들을 통해 의존성을 받게되면 이를 해당 디렉토리에 캐시하여, 같은 의존성은 다음 배포 때부터 다시 받지않도록 설정
+# script : master 브랜치에 푸쉬되었을 때 수행하는 명령어, 여기서는 프로젝트 내부에 둔 gradlew 를 통해 clean&build 를 수행
+# notification : Travis CI 실행 완료 시 자동으로 알람이 가도록 설정
