@@ -20,7 +20,7 @@ script: "./gradlew clean build"
 
 # Access Denied 관련 이슈
 before_install:
-  - chomod +x gradlew
+  - chmod +x gradlew
 
 # CI 실행 완료 시 메일로 알람
 notifications:
